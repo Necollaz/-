@@ -1,0 +1,94 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        const string CommandAddDossier = "1";
+        const string CommandDisplayAllDossier = "2";
+        const string CommandDeleteDossier = "3";
+        const string CommandExit = "4";
+
+        string selectionOperartion;
+
+        List<string> names = new List<string>();
+        List<string> jobs = new List<string>();
+
+        bool isExit = true;
+
+        while (isExit)
+        {
+            Console.WriteLine("Добро пожаловать в программу по кадровому учету!");
+            Console.WriteLine("Выберите нужную Вам операцию: ");
+            Console.WriteLine($"{CommandAddDossier} - Добавить досье в программу.");
+            Console.WriteLine($"{CommandDisplayAllDossier} - Вывести все досье.");
+            Console.WriteLine($"{CommandDeleteDossier} - Удалить досье из программы.");
+            Console.WriteLine($"{CommandExit} - Выйти из программы.");
+
+            selectionOperartion = Console.ReadLine();
+
+            switch (selectionOperartion)
+            {
+                case CommandAddDossier:
+                    AddDossier(names, jobs);
+                    break;
+
+                case CommandDisplayAllDossier:
+                    ShowDossiers(names, jobs);
+                    break;
+
+                case CommandDeleteDossier:
+                    DeleteDossier(names, jobs);
+                    break;
+
+                case CommandExit:
+                    isExit = false;
+                    Console.WriteLine("Вы вышли из программы!");
+                    break;
+
+                default:
+                    Console.WriteLine("Вы выбрали не верную операцию!");
+                    break;
+            }
+        }
+    }
+
+    private static void AddDossier(List<string> names, List<string> jobs)
+    {
+        Console.Write("Введите ФИО сотрудника: ");
+        string name = Console.ReadLine();
+
+        Console.Write("Введите должность сотрудника: ");
+        string job = Console.ReadLine();
+
+        names.Add(name);
+        jobs.Add(job);
+
+        Console.WriteLine($"Работник {name} на должность {job} добавлен.");
+    }
+
+    private static void ShowDossiers(List<string> names, List<string> jobs)
+    {
+        for (int i = 0; i < names.Count; i++)
+        {
+            Console.WriteLine($"{i+1}. {names[i]}, {jobs[i]}.");
+        }
+    }
+
+    private static void DeleteDossier(List<string> names, List<string> jobs)
+    {
+        ShowDossiers(names, jobs);
+
+        Console.Write("Введите индекс, чтобы удалить досье: ");
+
+        if(int.TryParse(Console.ReadLine(), out int index) && index - 1 >= 0 && index - 1 < names.Count)
+        {
+            Console.WriteLine($"Досье {names[index - 1]} удалено!");
+
+            names.RemoveAt(index - 1);
+            jobs.RemoveAt(index - 1);
+        }
+        else
+        {
+            Console.WriteLine("Вы ввели не верный индекс.");
+        }
+    }
+}
