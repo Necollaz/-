@@ -12,9 +12,9 @@ internal class Program
         List<string> names = new List<string>();
         List<string> jobs = new List<string>();
 
-        bool isExit = true;
+        bool isOpen = true;
 
-        while (isExit)
+        while (isOpen)
         {
             Console.WriteLine("Добро пожаловать в программу по кадровому учету!");
             Console.WriteLine("Выберите нужную Вам операцию: ");
@@ -40,7 +40,7 @@ internal class Program
                     break;
 
                 case CommandExit:
-                    isExit = false;
+                    isOpen = false;
                     Console.WriteLine("Вы вышли из программы!");
                     break;
 
@@ -69,7 +69,7 @@ internal class Program
     {
         for (int i = 0; i < names.Count; i++)
         {
-            Console.WriteLine($"{i+1}. {names[i]}, {jobs[i]}.");
+            Console.WriteLine($"{i + 1}. {names[i]}, {jobs[i]}.");
         }
     }
 
@@ -77,18 +77,27 @@ internal class Program
     {
         ShowDossiers(names, jobs);
 
+        string indexDelete;
+        int numberDelete;
+
         Console.Write("Введите индекс, чтобы удалить досье: ");
+        indexDelete = Console.ReadLine();
 
-        if(int.TryParse(Console.ReadLine(), out int index) && index - 1 >= 0 && index - 1 < names.Count)
+        if (int.TryParse(indexDelete, out numberDelete) == true)
         {
-            Console.WriteLine($"Досье {names[index - 1]} удалено!");
+            numberDelete--;
 
-            names.RemoveAt(index - 1);
-            jobs.RemoveAt(index - 1);
-        }
-        else
-        {
-            Console.WriteLine("Вы ввели не верный индекс.");
+            if (numberDelete >= 0 && numberDelete < names.Count)
+            {
+                names.RemoveAt(numberDelete);
+                jobs.RemoveAt(numberDelete);
+
+                Console.WriteLine($"Досье удалено!");
+            }
+            else
+            {
+                Console.WriteLine("Вы ввели не верный индекс.");
+            }
         }
     }
 }
